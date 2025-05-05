@@ -34,15 +34,15 @@ public class SecurityConfiguration {
         JwtFilter jwtFilter = new JwtFilter(jwtUtil, userService);
 
         return http.csrf(AbstractHttpConfigurer::disable)
-            /*.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/authenticate").permitAll()
                 .requestMatchers(
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html"
                 ).permitAll()
                 .anyRequest().authenticated()
-            )*/
+            )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
