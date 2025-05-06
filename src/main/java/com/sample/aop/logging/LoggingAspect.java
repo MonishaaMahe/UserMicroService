@@ -1,6 +1,8 @@
 package com.sample.aop.logging;
 
 import java.util.Arrays;
+
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import org.springframework.stereotype.Component;
 import tech.jhipster.config.JHipsterConstants;
 
 /**
@@ -19,6 +22,8 @@ import tech.jhipster.config.JHipsterConstants;
  * By default, it only runs with the "dev" profile.
  */
 @Aspect
+@Component
+@   Slf4j
 public class LoggingAspect {
 
     private final Environment env;
@@ -105,5 +110,17 @@ public class LoggingAspect {
             log.error("Illegal argument: {} in {}()", Arrays.toString(joinPoint.getArgs()), joinPoint.getSignature().getName());
             throw e;
         }
+    }
+
+    @Around("@annotation(com.sample.aop.logging.LogExecutionTime)")
+    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        long start = System.currentTimeMillis();
+        Object result = joinPoint.proceed();
+        long duration = System.currentTimeMillis() - start;
+
+        Logger log = logger(joinPoint);
+        log.info("Execution time of {}() :: {} ms", joinPoint.getSignature().getName(), duration);
+
+        return result;
     }
 }

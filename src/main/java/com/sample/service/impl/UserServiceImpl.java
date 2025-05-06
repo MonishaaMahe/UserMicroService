@@ -1,5 +1,6 @@
 package com.sample.service.impl;
 
+import com.sample.aop.logging.LogExecutionTime;
 import com.sample.domain.PagedResponse;
 import com.sample.domain.Role;
 import com.sample.domain.User;
@@ -44,6 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @LogExecutionTime
     public UserInfo create(UserCreateDto dto) {
         User user = userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -86,6 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @LogExecutionTime
     public List<UserInfo> getAll() {
         List<User> users = userRepository.findAll();
         List<UserInfo> resultUserList = users.stream()

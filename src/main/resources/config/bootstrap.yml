@@ -7,7 +7,7 @@ spring:
   application:
     name: user-service
     config:
-      import: "optional:configserver:http://config-server:8888"
+      import: "optional:configserver:http://localhost:8888"
   profiles:
     # The commented value for `active` can be replaced with valid Spring profiles to load.
     # Otherwise, it will be filled in by maven when building the JAR file
@@ -28,13 +28,13 @@ spring:
       port: 8500
 
     config:
-      uri: http://config-server:8888
+      uri: http://localhost:8888
       fail-fast: true
       label: main
       profile: dev
 
     vault:
-        uri: http://vault:8200
+        uri: http://127.0.0.1:8200
         token: root
         kv:
           enabled: true
