@@ -51,3 +51,22 @@ management:
 jhipster:
   clientApp:
     name: 'Jhipster-Microservice'
+
+
+aws:
+  s3:
+    bucket-name: my-local-bucket
+    input-folder: input/
+    output-folder: output/
+
+cloud:
+  aws:
+    credentials:
+      access-key: test
+      secret-key: test
+    region:
+      static: us-east-1
+    endpoint: http://localhost:4566
+
+
+
